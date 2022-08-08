@@ -1,6 +1,8 @@
 import client from '../database'
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
+import { Pool, PoolClient } from 'pg'
+
 dotenv.config()
 export type User = {
   id: number
@@ -12,8 +14,8 @@ export type User = {
 export class userStore {
   async index(): Promise<User[]> {
     try {
-      const conn: any = await client.connect()
-      const sql = `SELECT * FROM users`
+      const conn = await client.connect()
+      const sql = 'SELECT * FROM users'
       const result = await conn.query(sql)
       conn.release()
       return result.rows

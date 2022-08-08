@@ -4,7 +4,6 @@ export type Order = {
   id: number
   product_id: number
   quantity: number
-  price: number
   status: string
   user_id: number
 }
