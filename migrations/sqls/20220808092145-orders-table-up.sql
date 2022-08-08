@@ -1,9 +1,6 @@
-CREATE TABLE `orders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  user_id integer NOT NULL,
+  product_id integer NOT NULL,
+  quantity integer NOT NULL
+);

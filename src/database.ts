@@ -13,14 +13,6 @@ const client = new Pool({
   user: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB
-})
-
-/*
-const client: Pool.Client = new Pool.Client({
-  host: POSTGRES_HOST,
-  user: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB
-}) */
+}) as Pool
 
 export default client

@@ -4,10 +4,13 @@ import dotenv from 'dotenv'
 import { Pool, PoolClient } from 'pg'
 
 dotenv.config()
+
+const pepper = process.env.BCRYPT_PASSWORD
+//const saltRounds = 10
+
 export type User = {
-  id: number
-  firstName: string
-  lastName: string
+  id?: number
+  username: string
   password: string
 }
 
@@ -15,7 +18,7 @@ export class userStore {
   async index(): Promise<User[]> {
     try {
       const conn = await client.connect()
-      const sql = 'SELECT * FROM users'
+      const sql = 'SELECT * FROM users ;'
       const result = await conn.query(sql)
       conn.release()
       return result.rows
@@ -27,7 +30,7 @@ export class userStore {
   async show(id: number): Promise<User> {
     try {
       const conn: any = await client.connect()
-      const sql = `SELECT * FROM users WHERE id = $1`
+      const sql = `SELECT * FROM users WHERE id = $1;`
       const result = await conn.query(sql, [id])
       conn.release()
       return result.rows[0]
@@ -38,18 +41,20 @@ export class userStore {
 
   async create(u: User): Promise<User> {
     try {
-      const conn: any = await client.connect()
-      const sql = `INSERT INTO users (firstName, lastName, password) VALUES ($1, $2, $3) RETURNING *`
-      const hash = bcrypt.hashSync(
-        u.password + process.env.BCRYPT_PASSWORD,
-        parseInt(process.env.SALT_ROUNDS as string)
-      )
-      const result = await conn.query(sql, [u.firstName, u.lastName, hash])
+      // @ts-ignore
+      const conn = await Client.connect()
+      const sql = 'INSERT INTO users (username, password) VALUES ($1, $2);'
+
+      const hash = bcrypt.hashSync(u.password + pepper, 10)
+
+      const result = await conn.query(sql, [u.username, hash])
       const user = result.rows[0]
+
       conn.release()
+
       return user
     } catch (err) {
-      throw new Error(`the error is ${err}`)
+      throw new Error(`unable create user (${u.username}): ${err}`)
     }
   }
 
