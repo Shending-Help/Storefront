@@ -9,11 +9,11 @@ export type Order = {
 }
 
 export class Orders {
-  async current_user_orders(): Promise<Order[]> {
+  async showOrderById(id: number): Promise<Order[]> {
     try {
       const conn: any = await client.connect()
       const sql = `SELECT * FROM orders WHERE user_id = $1`
-      const result = await conn.query(sql, [1])
+      const result = await conn.query(sql, [id])
       conn.release()
       return result.rows
     } catch (err) {

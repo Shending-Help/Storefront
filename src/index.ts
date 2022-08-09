@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import * as dotenv from 'dotenv'
 import cors from 'cors'
 import userRoutes from './handlers/users'
+import productRoutes from './handlers/products'
 import bodyParser from 'body-parser'
 dotenv.config()
 
@@ -14,6 +15,7 @@ app.use(morgan('short'))
 app.use(bodyParser.json())
 
 userRoutes(app)
+productRoutes(app)
 
 const corsOptions = {
   origin: 'http://localhost:3000',
