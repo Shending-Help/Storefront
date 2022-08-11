@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx tsc && jasmine",
     "dev": "nodemon ./src/index.ts",
     "clean": "rimraf build/",
-    "build": "npm clean && npx tsc",
+    "build": "npx tsc",
     "start": "npm run build && nodemon build/index.js",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "test": "Set ENV=test db-migrate --env test up &&  jasmine-ts && db-migrate --env test down"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +45,7 @@
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jasmine-ts": "^0.4.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
