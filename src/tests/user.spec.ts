@@ -1,6 +1,12 @@
 import { User, userStore } from '../models/user'
+import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
 
+dotenv.config()
 const store = new userStore()
+const pepper = process.env.BCRYPT_PASSWORD
+
+const pass = bcrypt.hashSync('test_password' + pepper, 10)
 
 describe('User Model', () => {
   it('should have an index method', () => {
@@ -23,7 +29,7 @@ describe('User Model', () => {
     expect(result).toEqual({
       id: 1,
       username: 'test _user',
-      password: 'test_password'
+      password: pass
     })
   })
 
@@ -33,7 +39,7 @@ describe('User Model', () => {
       {
         id: 1,
         username: 'test _user',
-        password: 'test_password'
+        password: pass
       }
     ])
   })
@@ -43,7 +49,7 @@ describe('User Model', () => {
     expect(result).toEqual({
       id: 1,
       username: 'test _user',
-      password: 'test_password'
+      password: pass
     })
   })
 })
