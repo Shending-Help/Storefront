@@ -1,7 +1,7 @@
 import client from '../database'
 
 export type Order = {
-  id: number
+  id?: number
   product_id: number
   quantity: number
   status: string
@@ -9,11 +9,11 @@ export type Order = {
 }
 
 export class Orders {
-  async showOrderById(id: number): Promise<Order[]> {
+  async showOrderByUserId(user_id: number): Promise<Order[]> {
     try {
       const conn: any = await client.connect()
-      const sql = `SELECT * FROM orders WHERE user_id = $1`
-      const result = await conn.query(sql, [id])
+      const sql = 'SELECT * FROM orders WHERE user_id = $1'
+      const result = await conn.query(sql, [user_id])
       conn.release()
       return result.rows
     } catch (err) {

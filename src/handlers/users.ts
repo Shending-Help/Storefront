@@ -15,6 +15,16 @@ const userRoutes = (app: express.Application) => {
   app.post('/users/authenticate', authenticate)
 }
 const index = async (_req: Request, res: Response) => {
+  // try {
+  //   const authorizationHeader: any = _req.headers.authorization
+  //   const token = authorizationHeader.split(' ')[1]
+  //   jwt.verify(token, secret)
+  // } catch (err) {
+  //   res.status(401)
+  //   res.json('Access denied, invalid token')
+  //   return
+  // }
+
   try {
     const users = await store.index()
     res.json(users)
@@ -25,6 +35,16 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (_req: Request, res: Response) => {
+  // try {
+  //   const authorizationHeader: any = _req.headers.authorization
+  //   const token = authorizationHeader.split(' ')[1]
+  //   jwt.verify(token, secret)
+  // } catch (err) {
+  //   res.status(401)
+  //   res.json('Access denied, invalid token')
+  //   return
+  // }
+
   try {
     const user = await store.show(_req.body.id)
     res.json(user)
@@ -39,6 +59,16 @@ const createUser = async (_req: Request, res: Response) => {
     username: _req.body.username,
     password: _req.body.password
   }
+  // try {
+  //   const authorizationHeader: any = _req.headers.authorization
+  //   const token = authorizationHeader.split(' ')[1]
+  //   jwt.verify(token, secret)
+  // } catch (err) {
+  //   res.status(401)
+  //   res.json('Access denied, invalid token')
+  //   return
+  // }
+
   try {
     const newUser = await store.create(user)
 

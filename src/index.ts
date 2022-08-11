@@ -5,6 +5,8 @@ import cors from 'cors'
 import userRoutes from './handlers/users'
 import productRoutes from './handlers/products'
 import bodyParser from 'body-parser'
+import orderRoutes from './handlers/orders'
+
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
@@ -16,6 +18,7 @@ app.use(bodyParser.json())
 
 userRoutes(app)
 productRoutes(app)
+orderRoutes(app)
 
 const corsOptions = {
   origin: 'http://localhost:3000',
