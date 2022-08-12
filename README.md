@@ -1,57 +1,95 @@
 # Storefront Backend Project
 
-## Getting Started
+**Port number for db and server:**
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+    the server is running on port 3000  localhost:3000
+    the db is running on port 5432
 
-## Required Technologies
+**Environment variables:**
 
-Your application must make use of the following libraries:
+    POSTGRES_HOST=127.0.0.1
+    POSTGRES_DB=store
+    POSTGRES_TEST_DB=test
 
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+    POSTGRES_USER= <-- your user here -->
+    POSTGRES_PASSWORD= <-- your password her -->
+    SALT_ROUNDS= <-- your salt rounds here -->
+    BCRYPT_PASSWORD= <-- your bcrypt password here -->
+    TOKEN_SECRET= <-- your token secret here -->
+    ENV=dev
 
-## Steps to Completion
+**Package installation instructions:**
+these are the instructions for installing the packages needed for the backend
+npm i express --> this is the express package that will be used to create the server
+npm i jsonwebtoken --> this is the jsonwebtoken package that will be used to create the tokens
+npm i bcrypt --> this is the bcrypt package that will be used to hash the passwords
+npm i cors --> this is the cors package that will be used to allow cross-origin requests
+npm i db-migrate --> this is the db-migrate package that will be used to create the migrations
+npm i dotenv --> this is the dotenv package that will be used to read the environment variables
+npm i jasmine --> this is the jasmine package that will be used to run the tests
+npm i jasmine-spec-reporter --> this is the jasmine-spec-reporter package that will be used th help the tests run
+npm i morgan --> this is the morgan package that will be used to log the requests
+npm i pg --> this is the pg package that will be used to connect to the database
+npm i supertest --> this is the supertest package that will be used to test the end points
 
-### 1. Plan to Meet Requirements
+**Setup db and server instructions:**
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API.
+#create user and database
+`sh CREATE USER <-- your user here --> WITH PASSWORD '<-- your password here -->'; `
+#create database
+`sh CREATE DATABASE <-- your database here -->; `
 
-Your first task is to read the requirements and update the document with the following:
+#give user access to database
+`sh GRANT ALL PRIVILEGES ON DATABASE <-- your database here --> TO <-- your user here -->; `
 
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.  
-  **Example**: A SHOW route: 'blogs/:id' [GET]
+**scripts to use in the project**
+`"dev": "nodemon ./src/index.ts"` --> this is the command to run the server in the dev environment
+`"clean": "rimraf build/"` --> this is the command to clean the build folder
+`"build": "npx tsc"` --> this is the command to build the project
+`"start": "npm run build && nodemon build/index.js"` --> this is the command to start the project
+`"format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'"` --> this is the command to format the code
+`"lint": "eslint . --ext .ts"` --> this is the command to lint the code
+`"test": "Set ENV=test && db-migrate up && npm run build && Set ENV=test && jasmine && Set ENV=test && db-migrate reset"` --> this is the command to test the project
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.  
-  **Example**: You can format this however you like but these types of information should be provided
-  Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+Database schema with column name and type.
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape.
+    #### Product
 
-### 2. DB Creation and Migrations
+- id
+- name
+- price
+- [OPTIONAL] category
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder.
+#### User
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+- id
+- firstName
+- lastName
+- password
 
-### 3. Models
+#### Orders
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+- id
+- id of each product in the order
+- quantity of each product in the order
+- user_id
+- status of order (active or complete)
 
-### 4. Express Handlers
+**Endpoints:**
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled.
+# USERS
 
-### 5. JWTs
+    GET /users --> returns all users in the database
+    GET /users/:id --> returns a user with the given id
+    POST /users --> creates a new user
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+# PRODUCTS
 
-### 6. QA and `README.md`
+    GET /products --> returns all products in the database
+    GET /products/:id --> returns a product with the given id
+    POST /products --> creates a new product
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database.
+# ORDERS
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+    GET /orders/:id --> returns an order with the given user_id
+
