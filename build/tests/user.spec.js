@@ -49,7 +49,7 @@ var store = new user_1.userStore();
 var request = (0, supertest_1.default)(__1.default); // supertest is a testing framework for express
 var pepper = process.env.BCRYPT_PASSWORD + '';
 var user = { username: 'test', password: 'test123' };
-var pass = bcrypt_1.default.hashSync('test_password' + pepper, 10);
+var pass = bcrypt_1.default.hashSync('test123' + pepper, 10);
 describe('User Model', function () {
     it('should have an index method', function () {
         expect(store.index).toBeDefined();
@@ -60,6 +60,8 @@ describe('User Model', function () {
     it('should have a create method', function () {
         expect(store.create).toBeDefined();
     });
+});
+describe('User Model methods are working properly', function () {
     it('create method should add a user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
@@ -69,29 +71,38 @@ describe('User Model', function () {
                     result = _a.sent();
                     if (result) {
                         expect(result.username).toBe('test');
+                        expect(result.password).toBe(pass);
                     }
                     return [2 /*return*/];
             }
         });
     }); });
-    // it('index method should return a list of users', async () => {
-    //   const result = await store.index()
-    //   expect(result).toEqual([
-    //     {
-    //       id: 1,
-    //       username: 'test _user',
-    //       password: pass
-    //     }
-    //   ])
-    // })
-    // it('show method should return the correct book', async () => {
-    //   const result = await store.show(1)
-    //   expect(result).toEqual({
-    //     id: 1,
-    //     username: 'test _user',
-    //     password: pass
-    //   })
-    // })
+    it('index method should return a list of users', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.index()];
+                case 1:
+                    result = _a.sent();
+                    expect(result[0].username).toBe('test');
+                    expect(bcrypt_1.default.compareSync(user.password + pepper, result[0].password)).toBe(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('show method should return the correct user', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.show(1)];
+                case 1:
+                    result = _a.sent();
+                    expect(result.username).toBe('test');
+                    expect(bcrypt_1.default.compareSync(user.password + pepper, result.password)).toBe(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
 describe('User Routes', function () {
     it('should have a users route', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -122,7 +133,7 @@ describe('User Routes', function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.post('/users')];
+                case 0: return [4 /*yield*/, request.post('/users').send(user)];
                 case 1:
                     result = _a.sent();
                     expect(result.status).toBe(200);

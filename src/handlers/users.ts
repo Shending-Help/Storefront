@@ -10,7 +10,7 @@ const secret: any = process.env.TOKEN_SECRET
 
 const userRoutes = (app: express.Application) => {
   app.get('/users', index)
-  app.get('/users/{:id}', show)
+  app.get('/users/:id', show)
   app.post('/users', createUser)
   app.post('/users/authenticate', authenticate)
 }
@@ -46,7 +46,7 @@ const show = async (_req: Request, res: Response) => {
   // }
 
   try {
-    const user = await store.show(_req.body.id)
+    const user = await store.show(Number(_req.params.id))
     res.json(user)
   } catch (err) {
     res.status(500)

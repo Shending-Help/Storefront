@@ -47,7 +47,7 @@ var store = new user_1.userStore();
 var secret = process.env.TOKEN_SECRET;
 var userRoutes = function (app) {
     app.get('/users', index);
-    app.get('/users/{:id}', show);
+    app.get('/users/:id', show);
     app.post('/users', createUser);
     app.post('/users/authenticate', authenticate);
 };
@@ -77,7 +77,7 @@ var show = function (_req, res) { return __awaiter(void 0, void 0, void 0, funct
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store.show(_req.body.id)];
+                return [4 /*yield*/, store.show(Number(_req.params.id))];
             case 1:
                 user = _a.sent();
                 res.json(user);
