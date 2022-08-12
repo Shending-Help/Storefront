@@ -44,9 +44,34 @@ var database_1 = __importDefault(require("../database"));
 var Orders = /** @class */ (function () {
     function Orders() {
     }
+    Orders.prototype.create = function (o) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, order, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'INSERT INTO orders (product_id, quantity, status, user_id) VALUES ($1, $2, $3, $4);';
+                        return [4 /*yield*/, conn.query(sql, [o.product_id, o.quantity, o.status, o.user_id])];
+                    case 2:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 3:
+                        err_1 = _a.sent();
+                        throw new Error("unable to create order (".concat(o.product_id, "): ").concat(err_1));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Orders.prototype.showOrderByUserId = function (user_id) {
         return __awaiter(this, void 0, void 0, function () {
-            var conn, sql, result, err_1;
+            var conn, sql, result, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -61,8 +86,8 @@ var Orders = /** @class */ (function () {
                         conn.release();
                         return [2 /*return*/, result.rows];
                     case 3:
-                        err_1 = _a.sent();
-                        throw new Error("the error is ".concat(err_1));
+                        err_2 = _a.sent();
+                        throw new Error("the error is ".concat(err_2));
                     case 4: return [2 /*return*/];
                 }
             });
