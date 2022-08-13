@@ -54,8 +54,8 @@ var Orders = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO orders (product_id, quantity, status, user_id) VALUES ($1, $2, $3, $4);';
-                        return [4 /*yield*/, conn.query(sql, [o.product_id, o.quantity, o.status, o.user_id])];
+                        sql = 'INSERT INTO orders (status, user_id) VALUES ($1, $2);';
+                        return [4 /*yield*/, conn.query(sql, [o.status, o.user_id])];
                     case 2:
                         result = _a.sent();
                         order = result.rows[0];
@@ -63,15 +63,15 @@ var Orders = /** @class */ (function () {
                         return [2 /*return*/, order];
                     case 3:
                         err_1 = _a.sent();
-                        throw new Error("unable to create order (".concat(o.product_id, "): ").concat(err_1));
+                        throw new Error("unable to create order: ".concat(err_1));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    Orders.prototype.showOrderByUserId = function (user_id) {
+    Orders.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var conn, sql, result, err_2;
+            var conn, sql, result, orders, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,15 +79,90 @@ var Orders = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM orders WHERE user_id = $1';
+                        sql = 'SELECT * FROM orders';
+                        return [4 /*yield*/, conn.query(sql)];
+                    case 2:
+                        result = _a.sent();
+                        orders = result.rows;
+                        conn.release();
+                        return [2 /*return*/, orders];
+                    case 3:
+                        err_2 = _a.sent();
+                        throw new Error("unable to get orders: ".concat(err_2));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Orders.prototype.show = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, order, err_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'SELECT * FROM orders WHERE id = $1;';
+                        return [4 /*yield*/, conn.query(sql, [id])];
+                    case 2:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 3:
+                        err_3 = _a.sent();
+                        throw new Error("unable to get order: ".concat(err_3));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Orders.prototype.showOrderByUserId = function (user_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'SELECT * FROM orders WHERE user_id = ($1) ;';
                         return [4 /*yield*/, conn.query(sql, [user_id])];
                     case 2:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows];
                     case 3:
-                        err_2 = _a.sent();
-                        throw new Error("the error is ".concat(err_2));
+                        err_4 = _a.sent();
+                        throw new Error("the error is ".concat(err_4));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Orders.prototype.addProductToOrder = function (quantity, order_id, product_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, order, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'INSERT INTO order_products (quantity, order_id, product_id) VALUES ($1, $2, $3) RETURNING *;';
+                        return [4 /*yield*/, conn.query(sql, [quantity, order_id, product_id])];
+                    case 2:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 3:
+                        err_5 = _a.sent();
+                        throw new Error("unable to add product to order: ".concat(err_5));
                     case 4: return [2 /*return*/];
                 }
             });

@@ -40,20 +40,10 @@ const createProduct = async (_req: Request, res: Response) => {
     price: _req.body.price
   }
 
-  // try {
-  //   const authorizationHeader: any = _req.headers.authorization
-  //   const token = authorizationHeader.split(' ')[1]
-  //   jwt.verify(token, secret)
-  // } catch (err) {
-  //   res.status(401)
-  //   res.json('Access denied, invalid token')
-  //   return
-  // }
-
   try {
     const newProduct = await productStore.create(product.name, product.price)
-    const token = jwt.sign({ product: newProduct }, secret)
-    res.json(token)
+
+    res.json(newProduct)
   } catch (err) {
     res.status(500)
     res.json(err)

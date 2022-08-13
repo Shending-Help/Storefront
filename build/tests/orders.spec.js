@@ -43,15 +43,31 @@ var order_1 = require("../models/order");
 var supertest_1 = __importDefault(require("supertest"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var user_1 = require("../models/user");
 var __1 = __importDefault(require(".."));
 dotenv_1.default.config();
 var orderStore = new order_1.Orders();
 var request = (0, supertest_1.default)(__1.default);
 var token = jsonwebtoken_1.default.sign({ username: 'test', password: 'test123' }, process.env.TOKEN_SECRET);
+var store = new user_1.userStore();
+beforeAll(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var u;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                u = {
+                    username: 'test',
+                    password: 'test123'
+                };
+                return [4 /*yield*/, store.create(u)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
 var testOrder = {
-    product_id: 1,
-    quantity: 1,
-    status: 'pending',
+    status: 'active',
     user_id: 1
 };
 describe('Order Model', function () {
@@ -68,8 +84,6 @@ describe('Order Model methods are working properly', function () {
                 case 1:
                     result = _a.sent();
                     if (result) {
-                        expect(result.product_id).toBe(testOrder.product_id);
-                        expect(result.quantity).toBe(testOrder.quantity);
                         expect(result.status).toBe(testOrder.status);
                         expect(result.user_id).toBe(testOrder.user_id);
                     }
@@ -85,10 +99,8 @@ describe('Order Model methods are working properly', function () {
                 case 1:
                     result = _a.sent();
                     if (result) {
-                        expect(result[0].product_id).toBe(1);
-                        expect(result[0].quantity).toBe(1);
-                        expect(result[0].status).toBe('pending');
-                        expect(result[0].user_id).toBe(1);
+                        expect(result[0].status).toBe('active');
+                        expect(Number(result[0].user_id)).toBe(1);
                     }
                     return [2 /*return*/];
             }
@@ -100,7 +112,7 @@ describe('Orders Routes', function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/orders/:id').set('Authorization', "Bearer ".concat(token))];
+                case 0: return [4 /*yield*/, request.get('/orders/1').set('Authorization', "Bearer ".concat(token))];
                 case 1:
                     result = _a.sent();
                     expect(result.status).toBe(200);

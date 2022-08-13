@@ -92,4 +92,8 @@ Database schema with column name and type.
 # ORDERS
 
     GET /orders/:id --> returns an order with the given user_id
-
+    GET  /orders --> returns all orders in the database
+    GET /orders/:id --> returns an order with the given id
+    POST /orders --> creates a new order
+    POST /orders/:id/products --> adds a product to an order
+    GET /orders/user/:id --> returns all orders for a user with the given id

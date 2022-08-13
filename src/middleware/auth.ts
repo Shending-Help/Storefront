@@ -3,13 +3,13 @@ import dotenv from 'dotenv'
 import express, { Request, Response, NextFunction } from 'express'
 
 dotenv.config()
-const secret: any = process.env.TOKEN_SECRET
+const secret = process.env.TOKEN_SECRET as string
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
-  const authorizationHeader: any = req.headers.authorization
-  const token = authorizationHeader.split(' ')[1]
   try {
-    const decoded = jwt.verify(token, secret)
+    const authorizationHeader = req.headers.authorization as string
+    const token = authorizationHeader.split(' ')[1]
+    jwt.verify(token, secret)
     next()
   } catch (err) {
     res.status(401)
