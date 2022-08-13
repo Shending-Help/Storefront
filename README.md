@@ -20,16 +20,28 @@
 
 **Package installation instructions:**
 these are the instructions for installing the packages needed for the backend
+
 npm i express --> this is the express package that will be used to create the server
+
 npm i jsonwebtoken --> this is the jsonwebtoken package that will be used to create the tokens
+
 npm i bcrypt --> this is the bcrypt package that will be used to hash the passwords
+
 npm i cors --> this is the cors package that will be used to allow cross-origin requests
+
 npm i db-migrate --> this is the db-migrate package that will be used to create the migrations
+
 npm i dotenv --> this is the dotenv package that will be used to read the environment variables
+
 npm i jasmine --> this is the jasmine package that will be used to run the tests
-npm i jasmine-spec-reporter --> this is the jasmine-spec-reporter package that will be used th help the tests run
+
+npm i jasmine-spec-reporter --> this is the jasmine-spec-reporter package that will be used th help the tests
+run
+
 npm i morgan --> this is the morgan package that will be used to log the requests
+
 npm i pg --> this is the pg package that will be used to connect to the database
+
 npm i supertest --> this is the supertest package that will be used to test the end points
 
 **Setup db and server instructions:**
