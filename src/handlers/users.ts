@@ -3,14 +3,15 @@ import express, { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import app from '..'
+import auth from '../middleware/auth'
 
 dotenv.config()
 const store = new userStore()
 const secret: any = process.env.TOKEN_SECRET
 
 const userRoutes = (app: express.Application) => {
-  app.get('/users', index)
-  app.get('/users/:id', show)
+  app.get('/users', auth, index)
+  app.get('/users/:id', auth, show)
   app.post('/users', createUser)
   app.post('/users/authenticate', authenticate)
 }

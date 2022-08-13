@@ -11,8 +11,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Index
 - Show
 - Create [token required]
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
 
 #### Users
 
@@ -23,28 +21,39 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Orders
 
 - Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
 
 #### Product
 
-- id
-- name
-- price
-- [OPTIONAL] category
+Column | Type | Collation | Nullable
+--------+------------------
+id | integer | | not null |
+name | character varying(255) | not null |  
+ price | integer | | not null |
 
 #### User
 
-- id
-- firstName
-- lastName
-- password
+Column | Type | Nullable |
+----------+------------------------+-----------+----------+
+id | integer | not null |
+username | character varying(255) | not null |  
+ password | character varying(255) | not null |
 
 #### Orders
 
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+table: orders
+
+Column | Type |
+---------+-----------------------+---
+id | integer |
+status | character varying(15) |
+user_id | bigint | | not null |
+
+table: order_products
+Column | Type |
+------------+---------+
+id | integer |  
+ quantity | integer |
+order_id | bigint |
+product_id | bigint |

@@ -44,12 +44,12 @@ var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var secret = process.env.TOKEN_SECRET;
 var auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorizationHeader, token, decoded;
+    var authorizationHeader, token;
     return __generator(this, function (_a) {
-        authorizationHeader = req.headers.authorization;
-        token = authorizationHeader.split(' ')[1];
         try {
-            decoded = jsonwebtoken_1.default.verify(token, secret);
+            authorizationHeader = req.headers.authorization;
+            token = authorizationHeader.split(' ')[1];
+            jsonwebtoken_1.default.verify(token, secret);
             next();
         }
         catch (err) {

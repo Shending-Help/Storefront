@@ -3,7 +3,13 @@ import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
 import supertest from 'supertest'
 import app from '..'
+import jwt from 'jsonwebtoken'
 import client from '../database'
+
+const token = jwt.sign(
+  { username: 'test', password: 'test123' },
+  process.env.TOKEN_SECRET as string
+)
 
 dotenv.config()
 const store = new userStore()
@@ -54,12 +60,12 @@ describe('User Model methods are working properly', () => {
 
 describe('User Routes', () => {
   it('should have a users route', async () => {
-    const result = await request.get('/users')
+    const result = await request.get('/users').set('Authorization', `Bearer ${token}`)
     expect(result.status).toBe(200)
   })
 
   it('should have a users/:id route', async () => {
-    const result = await request.get('/users/1')
+    const result = await request.get('/users/1').set('Authorization', `Bearer ${token}`)
     expect(result.status).toBe(200)
   })
 

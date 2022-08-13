@@ -40,7 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var product_1 = require("../models/product");
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var auth_1 = __importDefault(require("../middleware/auth"));
 var productStore = new product_1.Products();
@@ -92,7 +91,7 @@ var show = function (_req, res) { return __awaiter(void 0, void 0, void 0, funct
     });
 }); };
 var createProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, newProduct, token, err_3;
+    var product, newProduct, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -106,8 +105,7 @@ var createProduct = function (_req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, productStore.create(product.name, product.price)];
             case 2:
                 newProduct = _a.sent();
-                token = jsonwebtoken_1.default.sign({ product: newProduct }, secret);
-                res.json(token);
+                res.json(newProduct);
                 return [3 /*break*/, 4];
             case 3:
                 err_3 = _a.sent();

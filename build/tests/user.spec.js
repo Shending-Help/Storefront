@@ -44,6 +44,8 @@ var bcrypt_1 = __importDefault(require("bcrypt"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var supertest_1 = __importDefault(require("supertest"));
 var __1 = __importDefault(require(".."));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var token = jsonwebtoken_1.default.sign({ username: 'test', password: 'test123' }, process.env.TOKEN_SECRET);
 dotenv_1.default.config();
 var store = new user_1.userStore();
 var request = (0, supertest_1.default)(__1.default); // supertest is a testing framework for express
@@ -109,7 +111,7 @@ describe('User Routes', function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/users')];
+                case 0: return [4 /*yield*/, request.get('/users').set('Authorization', "Bearer ".concat(token))];
                 case 1:
                     result = _a.sent();
                     expect(result.status).toBe(200);
@@ -121,7 +123,7 @@ describe('User Routes', function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/users/1')];
+                case 0: return [4 /*yield*/, request.get('/users/1').set('Authorization', "Bearer ".concat(token))];
                 case 1:
                     result = _a.sent();
                     expect(result.status).toBe(200);

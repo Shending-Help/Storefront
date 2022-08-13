@@ -42,12 +42,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var user_1 = require("../models/user");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var auth_1 = __importDefault(require("../middleware/auth"));
 dotenv_1.default.config();
 var store = new user_1.userStore();
 var secret = process.env.TOKEN_SECRET;
 var userRoutes = function (app) {
-    app.get('/users', index);
-    app.get('/users/:id', show);
+    app.get('/users', auth_1.default, index);
+    app.get('/users/:id', auth_1.default, show);
     app.post('/users', createUser);
     app.post('/users/authenticate', authenticate);
 };

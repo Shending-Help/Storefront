@@ -41,15 +41,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var order_1 = require("../models/order");
 var dotenv_1 = __importDefault(require("dotenv"));
+var auth_1 = __importDefault(require("../middleware/auth"));
 var orderStore = new order_1.Orders();
 dotenv_1.default.config();
 var secret = process.env.TOKEN_SECRET;
 var orderRoutes = function (app) {
-    app.get('/orders', index);
-    app.get('/orders/:id', show);
-    app.post('/orders', create);
-    app.post('/orders/:id/products', addProduct);
-    app.get('/orders/user/:id', showOrderByUserId);
+    app.get('/orders', auth_1.default, index);
+    app.get('/orders/:id', auth_1.default, show);
+    app.post('/orders', auth_1.default, create);
+    app.post('/orders/:id/products', auth_1.default, addProduct);
+    app.get('/orders/user/:id', auth_1.default, showOrderByUserId);
 };
 var showOrderByUserId = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var orders, err_1;
@@ -60,8 +61,6 @@ var showOrderByUserId = function (_req, res) { return __awaiter(void 0, void 0, 
                 return [4 /*yield*/, orderStore.showOrderByUserId(Number(_req.params.id))];
             case 1:
                 orders = _a.sent();
-                console.log(orders);
-                console.log(_req.query.id);
                 res.json(orders);
                 return [3 /*break*/, 3];
             case 2:
