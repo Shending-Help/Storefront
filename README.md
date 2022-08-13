@@ -63,17 +63,20 @@ Database schema with column name and type.
 #### User
 
 - id
-- firstName
-- lastName
+- username
 - password
 
 #### Orders
 
 - id
-- id of each product in the order
-- quantity of each product in the order
 - user_id
-- status of order (active or complete)
+- status
+
+#### Order-Product
+
+- id
+- order_id
+- product_id
 
 **Endpoints:**
 
