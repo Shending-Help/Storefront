@@ -59,15 +59,6 @@ const createUser = async (_req: Request, res: Response) => {
     username: _req.body.username,
     password: _req.body.password
   }
-  // try {
-  //   const authorizationHeader: any = _req.headers.authorization
-  //   const token = authorizationHeader.split(' ')[1]
-  //   jwt.verify(token, secret)
-  // } catch (err) {
-  //   res.status(401)
-  //   res.json('Access denied, invalid token')
-  //   return
-  // }
 
   try {
     const newUser = await store.create(user)
