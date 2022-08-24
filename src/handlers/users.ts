@@ -16,16 +16,6 @@ const userRoutes = (app: express.Application) => {
   app.post('/users/authenticate', authenticate)
 }
 const index = async (_req: Request, res: Response) => {
-  // try {
-  //   const authorizationHeader: any = _req.headers.authorization
-  //   const token = authorizationHeader.split(' ')[1]
-  //   jwt.verify(token, secret)
-  // } catch (err) {
-  //   res.status(401)
-  //   res.json('Access denied, invalid token')
-  //   return
-  // }
-
   try {
     const users = await store.index()
     res.json(users)
@@ -36,16 +26,7 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (_req: Request, res: Response) => {
-  // try {
-  //   const authorizationHeader: any = _req.headers.authorization
-  //   const token = authorizationHeader.split(' ')[1]
-  //   jwt.verify(token, secret)
-  // } catch (err) {
-  //   res.status(401)
-  //   res.json('Access denied, invalid token')
-  //   return
-  // }
-
+  
   try {
     const user = await store.show(Number(_req.params.id))
     res.json(user)
@@ -92,19 +73,6 @@ const authenticate = async (_req: Request, res: Response) => {
   }
 }
 
-/*const authenticate = async (req: Request, res: Response) => {
-  const user: User = {
-    username: req.body.username,
-    password: req.body.password
-  }
-  try {
-    const u = await store.authenticate(user.username, user.password)
-    var token = jwt.sign({ user: u }, secret)
-    res.json(token)
-  } catch (error) {
-    res.status(401)
-    res.json({ error })
-  }
-}*/
+
 
 export default userRoutes
