@@ -6,7 +6,7 @@ import { Pool, PoolClient } from 'pg'
 dotenv.config()
 
 const pepper = process.env.BCRYPT_PASSWORD
-//const saltRounds = 10
+
 
 export type User = {
   id?: number
